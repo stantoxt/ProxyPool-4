@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProxyPool.Core.Channel
 {
-    public class ProxyChannel : IProxyChannel
+    internal class RedisProxyChannel : IProxyChannel
     {
-        private static RedisClient _redisClient = new RedisClient("localhost:6379");
+        private static RedisClient _redisClient = new RedisClient("127.0.0.1:6379,protocol=RESP3");
         private const string REDIS_CHANNEL_KEY= "ProxyPool:Channel";
         public async Task AddAsync(ProxyInfo proxy)
         {

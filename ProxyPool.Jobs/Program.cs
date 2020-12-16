@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Quartz;
-using System;
 
 namespace ProxyPool.Jobs
 {
@@ -16,14 +16,17 @@ namespace ProxyPool.Jobs
               {
                   services.AddQuartz(q =>
                   {
-                    // Use a Scoped container to create jobs. I'll touch on this later
-                    q.UseMicrosoftDependencyInjectionScopedJobFactory();
+                      // Use a Scoped container to create jobs. I'll touch on this later
+                      q.UseMicrosoftDependencyInjectionScopedJobFactory();
+
+                      q.AddJobAndTrigger<KuaiDaiLiJob>(hostContext.Configuration);
+                      q.AddJobAndTrigger<XiLaDaiLiJob>(hostContext.Configuration);
                   });
 
-                  // Add the Quartz.NET hosted service
                   services.AddQuartzHostedService(
                     q => q.WaitForJobsToComplete = true);
-                  // other config
+
+                  services.AddProxyChannel();
               });
     }
 }
