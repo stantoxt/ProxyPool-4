@@ -1,4 +1,4 @@
-﻿using ProxyPool.Core.Channel;
+﻿using ProxyPool.Core.Pipeline;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddProxyChannel(this IServiceCollection services)
         {
-            services.AddScoped<IProxyChannel, RedisProxyChannel>();
+            services.AddSingleton<IProxyPipeline, RedisProxyPipieline>();
             return services;
         }
     }

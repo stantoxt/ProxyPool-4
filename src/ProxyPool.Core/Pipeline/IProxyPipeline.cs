@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace ProxyPool.Core.Channel
+namespace ProxyPool.Core.Pipeline
 {
-    public interface IProxyChannel
+    public interface IProxyPipeline
     {
         Task AddAsync(ProxyInfo proxy);
         Task AddAsync(IEnumerable<ProxyInfo> list);

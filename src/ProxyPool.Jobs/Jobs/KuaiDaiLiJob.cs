@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ProxyPool.Core;
-using ProxyPool.Core.Channel;
+using ProxyPool.Core.Pipeline;
 using ProxyPool.Spiders;
 using Quartz;
 using System;
@@ -13,9 +13,9 @@ namespace ProxyPool.Jobs
     public class KuaiDaiLiJob : IJob
     {
         private readonly ILogger<KuaiDaiLiJob> _logger;
-        private readonly IProxyChannel _channel;
+        private readonly IProxyPipeline _channel;
 
-        public KuaiDaiLiJob(ILogger<KuaiDaiLiJob> logger, IProxyChannel channel)
+        public KuaiDaiLiJob(ILogger<KuaiDaiLiJob> logger, IProxyPipeline channel)
         {
             _logger = logger;
             _channel = channel;

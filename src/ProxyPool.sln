@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Spiders", "ProxyP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Core", "ProxyPool.Core\ProxyPool.Core.csproj", "{F18E3E45-1E03-4BBD-B428-715417D72F5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyPool.Jobs", "ProxyPool.Jobs\ProxyPool.Jobs.csproj", "{F24DDD53-DA11-4CEE-A547-9335210F40EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Jobs", "ProxyPool.Jobs\ProxyPool.Jobs.csproj", "{F24DDD53-DA11-4CEE-A547-9335210F40EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Data.EntityFramework", "ProxyPool.Data.EntityFramework\ProxyPool.Data.EntityFramework.csproj", "{8DF87D5E-FEDA-405C-A433-E4AA172AF968}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Pipeline.WorkerService", "ProxyPool.Pipeline.WorkerService\ProxyPool.Pipeline.WorkerService.csproj", "{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyPool.Service", "ProxyPool.Service\ProxyPool.Service.csproj", "{8E1DF6B4-6223-4ECF-864D-68CBE6195749}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{F24DDD53-DA11-4CEE-A547-9335210F40EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F24DDD53-DA11-4CEE-A547-9335210F40EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F24DDD53-DA11-4CEE-A547-9335210F40EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF87D5E-FEDA-405C-A433-E4AA172AF968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF87D5E-FEDA-405C-A433-E4AA172AF968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF87D5E-FEDA-405C-A433-E4AA172AF968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF87D5E-FEDA-405C-A433-E4AA172AF968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E1DF6B4-6223-4ECF-864D-68CBE6195749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E1DF6B4-6223-4ECF-864D-68CBE6195749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E1DF6B4-6223-4ECF-864D-68CBE6195749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E1DF6B4-6223-4ECF-864D-68CBE6195749}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

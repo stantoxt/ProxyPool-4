@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProxyPool.Core.Channel
+namespace ProxyPool.Core.Pipeline
 {
-    internal class RedisProxyChannel : IProxyChannel
+    internal class RedisProxyPipieline : IProxyPipeline
     {
         private static RedisClient _redisClient = new RedisClient("127.0.0.1:6379,protocol=RESP3");
         private const string REDIS_CHANNEL_KEY= "ProxyPool:Channel";
