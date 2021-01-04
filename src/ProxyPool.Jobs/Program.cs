@@ -26,7 +26,7 @@ namespace ProxyPool.Jobs
                   services.AddQuartzHostedService(
                     q => q.WaitForJobsToComplete = true);
 
-                  services.AddProxyChannel();
+                  services.AddProxyChannel(hostContext.Configuration);
               });
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using ProxyPool.Core;
 using ProxyPool.Core.Pipeline;
 using ProxyPool.Spiders;
 using Quartz;
-using System;
 using System.Threading.Tasks;
 
 namespace ProxyPool.Jobs
