@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProxyPool.Core\ProxyPool.Core.csproj" />
+    <ProjectReference Include="..\ProxyPool.Service\ProxyPool.Service.csproj" />
     <ProjectReference Include="..\ProxyPool.Spiders\ProxyPool.Spiders.csproj" />
   </ItemGroup>
 
