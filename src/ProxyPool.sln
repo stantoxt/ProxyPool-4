@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Console", "ProxyPool.Console\ProxyPool.Console.csproj", "{771E62FA-B55B-4351-8574-BDDF39D8C38B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Spiders", "ProxyPool.Spiders\ProxyPool.Spiders.csproj", "{FBF792D3-26D9-4E22-94C8-AD474A34F71C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Core", "ProxyPool.Core\ProxyPool.Core.csproj", "{F18E3E45-1E03-4BBD-B428-715417D72F5D}"
@@ -15,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Data.EntityFramew
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Pipeline.WorkerService", "ProxyPool.Pipeline.WorkerService\ProxyPool.Pipeline.WorkerService.csproj", "{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyPool.Service", "ProxyPool.Service\ProxyPool.Service.csproj", "{8E1DF6B4-6223-4ECF-864D-68CBE6195749}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Service", "ProxyPool.Service\ProxyPool.Service.csproj", "{8E1DF6B4-6223-4ECF-864D-68CBE6195749}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{771E62FA-B55B-4351-8574-BDDF39D8C38B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{771E62FA-B55B-4351-8574-BDDF39D8C38B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{771E62FA-B55B-4351-8574-BDDF39D8C38B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{771E62FA-B55B-4351-8574-BDDF39D8C38B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBF792D3-26D9-4E22-94C8-AD474A34F71C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBF792D3-26D9-4E22-94C8-AD474A34F71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBF792D3-26D9-4E22-94C8-AD474A34F71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
