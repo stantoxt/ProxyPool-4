@@ -1,4 +1,4 @@
-﻿using ProxyPool.Service;
+﻿using ProxyPool.Service.Abstracts;
 using Quartz;
 using System.Threading.Tasks;
 

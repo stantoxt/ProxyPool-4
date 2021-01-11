@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ProxyPool.Data.EntityFramework;
-using ProxyPool.Service;
+using ProxyPool.Service.Abstracts;
+using ProxyPool.Service.Implementations;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

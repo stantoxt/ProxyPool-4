@@ -1,7 +1,7 @@
 ﻿using ProxyPool.Service.Models;
 using System.Threading.Tasks;
 
-namespace ProxyPool.Service
+namespace ProxyPool.Service.Abstracts
 {
     public interface IProxyService
     {

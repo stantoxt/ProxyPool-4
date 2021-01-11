@@ -2,9 +2,10 @@
 using ProxyPool.Core.Net;
 using ProxyPool.Data.EntityFramework;
 using ProxyPool.Data.EntityFramework.Models;
+using ProxyPool.Service.Abstracts;
 using System.Threading.Tasks;
 
-namespace ProxyPool.Service
+namespace ProxyPool.Service.Implementations
 {
     internal class ProxyCheckService : IProxyCheckService
     {
