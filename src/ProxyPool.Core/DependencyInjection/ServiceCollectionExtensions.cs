@@ -11,17 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.Configure<RedisOptions>(configuration.GetSection(RedisOptions.Position));
             services.AddSingleton<IRedisClientFactory, RedisClientFactory>();
-            return services;
-        }
-
-        public static IServiceCollection AddProxyCheck(this IServiceCollection services)
-        {
             services.AddScoped<IProxyCheck, DefaultProxyCheck>();
-            return services;
-        }
-
-        public static IServiceCollection AddProxyChannel(this IServiceCollection services, IConfiguration configuration)
-        {
             services.AddSingleton<IProxyPipeline, RedisProxyPipieline>();
             return services;
         }

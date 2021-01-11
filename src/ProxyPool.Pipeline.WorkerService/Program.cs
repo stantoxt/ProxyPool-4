@@ -18,7 +18,6 @@ namespace ProxyPool.Pipeline.WorkerService
                 .ConfigureServices((hostContext, services) =>
                 {
                     services
-                        .AddProxyChannel(hostContext.Configuration)
                         .AddProxyPoolService(hostContext.Configuration);
                     services.AddHostedService<Worker>(provider =>
                     {

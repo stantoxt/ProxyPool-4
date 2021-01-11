@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddProxyPoolService(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddProxyCheck();
+            services.AddProxyPoolCore(configuration);
             services.AddScoped<IProxyService, ProxyService>();
             services.AddScoped<IProxyCheckService, ProxyCheckService>();
             services.AddDbContext<ProxyPoolContext>(options =>
