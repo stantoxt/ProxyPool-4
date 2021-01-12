@@ -7,11 +7,11 @@ namespace ProxyPool.HttpApi.Controllers
 {
     [ApiController]
     [Route("api/proxy/")]
-    public class ProxyRandomController : ControllerBase
+    public class ProxyController : ControllerBase
     {
         private readonly IProxyRandomService _randomService;
 
-        public ProxyRandomController(IProxyRandomService randomService)
+        public ProxyController(IProxyRandomService randomService)
         {
             _randomService = randomService;
         }
