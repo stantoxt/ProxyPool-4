@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddProxyPoolCore(configuration);
             services.AddScoped<IProxyService, ProxyService>();
             services.AddScoped<IProxyCheckService, ProxyCheckService>();
+            services.AddScoped<IProxyRandomService, ProxyRandomService>();
             services.AddDbContext<ProxyPoolContext>(options =>
             {
                 options.EnableSensitiveDataLogging(true);

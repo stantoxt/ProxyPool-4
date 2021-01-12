@@ -3,12 +3,8 @@
 namespace ProxyPool.Service.Models
 {
     [Serializable]
-    public class ProxyDto
+    public class ProxyOutputDto
     {
-        public int Id { get; set; }
-
-        public string IP { get; set; }
-
         public int Port { get; set; }
 
         public int AnonymousDegree { get; set; }
