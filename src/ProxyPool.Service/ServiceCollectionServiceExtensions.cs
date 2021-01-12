@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using ProxyPool.Data.EntityFramework;
 using ProxyPool.Service.Abstracts;
 using ProxyPool.Service.Implementations;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -17,7 +18,12 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContext<ProxyPoolContext>(options =>
             {
                 options.EnableSensitiveDataLogging(true);
-                options.UseMySql(configuration.GetConnectionString("ProxyPoolContext"));
+                options.UseMySql(configuration.GetConnectionString("ProxyPoolContext"), builder=>
+                {
+                    builder.EnableRetryOnFailure(
+                         maxRetryCount: 3
+                        );
+                });
             });
             return services;
         }

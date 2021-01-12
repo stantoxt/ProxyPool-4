@@ -1,5 +1,6 @@
 ﻿using FreeRedis;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 
 namespace ProxyPool.Core.Redis
@@ -13,9 +14,13 @@ namespace ProxyPool.Core.Redis
         public RedisClientFactory(IOptions<RedisOptions> options)
         {
             _options = options;
+
             _redisClient = new Lazy<RedisClient>(() =>
             {
-                return new RedisClient(_options.Value.ConnectionString);
+                var client = new RedisClient(_options.Value.ConnectionString);
+                client.Serialize = obj => JsonConvert.SerializeObject(obj);
+                client.Deserialize = (json, type) => JsonConvert.DeserializeObject(json, type);
+                return client;
             });
         }
 

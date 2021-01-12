@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ProxyPool.Core.Pipeline;
+using ProxyPool.Service.Abstracts;
 
 namespace ProxyPool.Pipeline.WorkerService
 {
@@ -19,12 +20,15 @@ namespace ProxyPool.Pipeline.WorkerService
                 {
                     services
                         .AddProxyPoolService(hostContext.Configuration);
-                    services.AddHostedService<Worker>(provider =>
-                    {
-                        var logger = provider.GetService<ILogger<Worker>>();
-                        var pipeline = provider.GetService<IProxyPipeline>();
-                        return new Worker(logger, pipeline, provider);
-                    });
+
+                    services
+                        .AddHostedService(provider =>
+                        {
+                            var logger = provider.GetService<ILogger<PipelineWorker>>();
+                            var pipeline = provider.GetService<IProxyPipeline>();
+                            return new PipelineWorker(logger, pipeline, provider);
+                        })
+                        .AddHostedService<ProxyCheckConsumeWork>();
                 });
     }
 }

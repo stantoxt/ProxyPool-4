@@ -21,7 +21,7 @@ namespace ProxyPool.Jobs
 
                       q.AddJobAndTrigger<KuaiDaiLiJob>(hostContext.Configuration);
                       q.AddJobAndTrigger<XiLaDaiLiJob>(hostContext.Configuration);
-                      q.AddJobAndTrigger<ProxyCheckJob>(hostContext.Configuration);
+                      q.AddJobAndTrigger<ProxyCheckPulishJob>(hostContext.Configuration);
                   });
 
                   services.AddQuartzHostedService(

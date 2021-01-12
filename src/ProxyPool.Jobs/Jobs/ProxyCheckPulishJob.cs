@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 namespace ProxyPool.Jobs
 {
     [DisallowConcurrentExecution]
-    public class ProxyCheckJob : IJob
+    public class ProxyCheckPulishJob : IJob
     {
         private readonly IProxyCheckService _checkService;
 
-        public ProxyCheckJob(IProxyCheckService checkService)
+        public ProxyCheckPulishJob(IProxyCheckService checkService)
         {
             _checkService = checkService;
         }
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await _checkService.CheckAsync();
+            await _checkService.PublishAsync();
         }
     }
 }

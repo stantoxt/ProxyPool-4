@@ -33,7 +33,7 @@ namespace ProxyPool.Core.Pipeline
 
 
             var redisClient = _redisClientFactory.CreateClient();
-            await redisClient.RPushXAsync(PIPE_LINE_NAME, list.Select(c => JsonConvert.SerializeObject(c)));
+            await redisClient.RPushAsync(PIPE_LINE_NAME, list.Select(c => JsonConvert.SerializeObject(c)));
         }
 
         public async Task<ProxyInfo> TakeAsync()

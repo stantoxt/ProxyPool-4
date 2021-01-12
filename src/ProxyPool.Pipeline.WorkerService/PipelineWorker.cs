@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace ProxyPool.Pipeline.WorkerService
 {
-    public class Worker : BackgroundService
+    public class PipelineWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<PipelineWorker> _logger;
         private readonly IProxyPipeline _pipeline;
         private readonly IServiceProvider _serviceProvider;
 
-        public Worker(ILogger<Worker> logger, IProxyPipeline pipeline, IServiceProvider serviceProvider)
+        public PipelineWorker(ILogger<PipelineWorker> logger, IProxyPipeline pipeline, IServiceProvider serviceProvider)
         {
             _logger = logger;
             _pipeline = pipeline;

@@ -4,6 +4,8 @@ namespace ProxyPool.Service.Abstracts
 {
     public interface IProxyCheckService
     {
-        Task CheckAsync();
+        Task PublishAsync();
+
+        Task ConsumeAsync();
     }
 }
