@@ -28,7 +28,16 @@ namespace ProxyPool.Service.Implementations
                 Score = dto.Score,
                 UpdatedTime = dto.UpdatedTime
             });
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<bool> ExistsAsync(string ip, int port)
