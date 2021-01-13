@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ProxyPool.Core;
 using ProxyPool.Core.Net;
 using ProxyPool.Core.Redis;
@@ -20,17 +21,20 @@ namespace ProxyPool.Service.Implementations
         private readonly string REDIS_CHECK_KEY = "ProxyPool:Check";
         private readonly IRandomPool _randomPool;
         private const int MAX_SCORE = 5;
+        private readonly ILogger<ProxyCheckService> _logger;
 
         public ProxyCheckService(
             ProxyPoolContext dbContext,
             IProxyCheck proxyCheck,
             IRedisClientFactory redisClientFactory,
-            IRandomPool randomPool)
+            IRandomPool randomPool,
+            ILogger<ProxyCheckService> logger)
         {
             _dbContext = dbContext;
             _proxyCheck = proxyCheck;
             _redisClientFactory = redisClientFactory;
             _randomPool = randomPool;
+            _logger = logger;
         }
 
         public async Task ConsumeAsync()
@@ -38,25 +42,32 @@ namespace ProxyPool.Service.Implementations
             var redisClient = _redisClientFactory.CreateClient();
             while (true)
             {
-                var proxy = await redisClient.BLPopAsync<Proxy>(REDIS_CHECK_KEY, 0);
-                var proxyStatus = await _proxyCheck.ConnectAsync(proxy.IP, proxy.Port, 5000);
-                if (proxyStatus.Connected)
+                try
                 {
-                    await IncreaseScoreAsync(proxy, 1);
-                    await _randomPool.AddAsync(proxy.IP, proxy.Port);
-                }
-                else
-                {
-                    if (proxy.Score <= 1)
+                    var proxy = await redisClient.BLPopAsync<Proxy>(REDIS_CHECK_KEY, 0);
+                    var proxyStatus = await _proxyCheck.ConnectAsync(proxy.IP, proxy.Port, 5000);
+                    if (proxyStatus.Connected)
                     {
-                        await DeleteProxyAsync(proxy);
-                        await _randomPool.RemoveAsync(proxy.IP, proxy.Port);
+                        await IncreaseScoreAsync(proxy, 1);
+                        await _randomPool.AddAsync(proxy.IP, proxy.Port);
                     }
                     else
                     {
-                        await IncreaseScoreAsync(proxy, -1);
-                        await _randomPool.AddAsync(proxy.IP, proxy.Port);
+                        if (proxy.Score <= 1)
+                        {
+                            await DeleteProxyAsync(proxy);
+                            await _randomPool.RemoveAsync(proxy.IP, proxy.Port);
+                        }
+                        else
+                        {
+                            await IncreaseScoreAsync(proxy, -1);
+                            await _randomPool.AddAsync(proxy.IP, proxy.Port);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
                 }
             }
         }

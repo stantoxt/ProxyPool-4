@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Jobs", "ProxyPool
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Data.EntityFramework", "ProxyPool.Data.EntityFramework\ProxyPool.Data.EntityFramework.csproj", "{8DF87D5E-FEDA-405C-A433-E4AA172AF968}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Pipeline.WorkerService", "ProxyPool.Pipeline.WorkerService\ProxyPool.Pipeline.WorkerService.csproj", "{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.WorkerService", "ProxyPool.Pipeline.WorkerService\ProxyPool.WorkerService.csproj", "{4DD1167D-7B1D-4A0D-A9A1-27B097E0F883}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.Service", "ProxyPool.Service\ProxyPool.Service.csproj", "{8E1DF6B4-6223-4ECF-864D-68CBE6195749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyPool.HttpApi", "ProxyPool.HttpApi\ProxyPool.HttpApi.csproj", "{3906F864-8095-4847-A14C-238A56276793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyPool.HttpApi", "ProxyPool.HttpApi\ProxyPool.HttpApi.csproj", "{3906F864-8095-4847-A14C-238A56276793}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

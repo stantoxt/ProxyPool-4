@@ -1,9 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using ProxyPool.Core.Pipeline;
 
-namespace ProxyPool.Pipeline.WorkerService
+namespace ProxyPool.WorkerService
 {
     public class Program
     {

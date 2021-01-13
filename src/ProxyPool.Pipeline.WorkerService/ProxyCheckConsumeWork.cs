@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProxyPool.Pipeline.WorkerService
+namespace ProxyPool.WorkerService
 {
     public class ProxyCheckConsumeWork : BackgroundService
     {

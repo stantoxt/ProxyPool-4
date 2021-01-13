@@ -8,7 +8,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProxyPool.Pipeline.WorkerService
+namespace ProxyPool.WorkerService
 {
     public class PipelineWorker : BackgroundService
     {
@@ -38,26 +38,33 @@ namespace ProxyPool.Pipeline.WorkerService
                {
                    while (!stoppingToken.IsCancellationRequested)
                    {
-                       var info = await _pipeline.TakeAsync();
-                       using var scope = _serviceProvider.CreateScope();
-                       var proxyService = scope.ServiceProvider.GetService<IProxyService>();
-                       if (string.IsNullOrWhiteSpace(info.IP))
-                           continue;
-
-                       var exists = await proxyService.ExistsAsync(info.IP, info.Port);
-                       if (exists)
-                           continue;
-
-                       await proxyService.AddAsync(new Service.Models.ProxyDto
+                       try
                        {
-                           AnonymousDegree = (int)info.AnonymousDegree,
-                           CreatedTime = DateTime.Now,
-                           IP = info.IP,
-                           Port = info.Port,
-                           Score = 1,
-                           UpdatedTime = DateTime.Now
-                       });
-                       _logger.LogInformation($"successfully added {info.IP}:{info.Port}");
+                           var info = await _pipeline.TakeAsync();
+                           using var scope = _serviceProvider.CreateScope();
+                           var proxyService = scope.ServiceProvider.GetService<IProxyService>();
+                           if (string.IsNullOrWhiteSpace(info.IP))
+                               continue;
+
+                           var exists = await proxyService.ExistsAsync(info.IP, info.Port);
+                           if (exists)
+                               continue;
+
+                           await proxyService.AddAsync(new Service.Models.ProxyDto
+                           {
+                               AnonymousDegree = (int)info.AnonymousDegree,
+                               CreatedTime = DateTime.Now,
+                               IP = info.IP,
+                               Port = info.Port,
+                               Score = 1,
+                               UpdatedTime = DateTime.Now
+                           });
+                           _logger.LogInformation($"successfully added {info.IP}:{info.Port}");
+                       }
+                       catch (Exception ex)
+                       {
+                           _logger.LogError(ex, ex.Message);
+                       }
                    }
                }, stoppingToken);
             }
