@@ -19,6 +19,7 @@ namespace ProxyPool.Service.Implementations
         private readonly IRedisClientFactory _redisClientFactory;
         private readonly string REDIS_CHECK_KEY = "ProxyPool:Check";
         private readonly IRandomPool _randomPool;
+        private const int MAX_SCORE = 5;
 
         public ProxyCheckService(
             ProxyPoolContext dbContext,
@@ -99,6 +100,9 @@ namespace ProxyPool.Service.Implementations
         private async Task IncreaseScoreAsync(Proxy proxy, int value)
         {
             proxy.Score = proxy.Score + value;
+            if (proxy.Score > MAX_SCORE)
+                return;
+
             proxy.UpdatedTime = DateTime.Now;
             _dbContext.Update(proxy);
             await _dbContext.SaveChangesAsync();
