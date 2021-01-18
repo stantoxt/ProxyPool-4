@@ -39,8 +39,7 @@ namespace ProxyPool.Core.Pipeline
         public async Task<ProxyInfo> TakeAsync()
         {
             var redisClient = _redisClientFactory.CreateClient();
-            var data = await redisClient.BLPopAsync(PIPE_LINE_NAME, 0);
-            return JsonConvert.DeserializeObject<ProxyInfo>(data);
+            return await redisClient.LPopAsync<ProxyInfo>(PIPE_LINE_NAME);
         }
     }
 }

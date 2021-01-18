@@ -15,8 +15,6 @@ namespace ProxyPool.WorkerService
                 .UseSystemd()
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.Configure<PipelineWorkerOptions>(hostContext.Configuration.GetSection(PipelineWorkerOptions.Position));
-
                     services
                         .AddProxyPoolService(hostContext.Configuration);
 
