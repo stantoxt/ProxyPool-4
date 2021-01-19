@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ProxyPool.Core.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace ProxyPool.HttpApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCustomExceptionMiddleware();
             app.UseRouting();
 
             app.UseAuthorization();
