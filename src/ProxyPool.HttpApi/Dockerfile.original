@@ -4,14 +4,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 
-ENV TZ=Asia/Shanghai
-
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["ProxyPool.HttpApi/ProxyPool.HttpApi.csproj", "ProxyPool.HttpApi/"]
-COPY ["ProxyPool.Service/ProxyPool.Service.csproj", "ProxyPool.Service/"]
-COPY ["ProxyPool.Core/ProxyPool.Core.csproj", "ProxyPool.Core/"]
-COPY ["ProxyPool.Data.EntityFramework/ProxyPool.Data.EntityFramework.csproj", "ProxyPool.Data.EntityFramework/"]
 RUN dotnet restore "ProxyPool.HttpApi/ProxyPool.HttpApi.csproj"
 COPY . .
 WORKDIR "/src/ProxyPool.HttpApi"

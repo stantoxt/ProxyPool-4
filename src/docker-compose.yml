@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7.16
+    restart: always
+    container_name: proxypool_mysql
+    command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--default-authentication-plugin=mysql_native_password' ]
+    environment:
+      - "MYSQL_DATABASE=proxy_pool_db"
+      - "MYSQL_USER=proxypool"
+      - "MYSQL_PASSWORD=proxypool"
+      - "TZ=Asia/Shanghai"
+      - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
+    volumes:
+      - ./Scripts/mysql.sql:/docker-entrypoint-initdb.d/setup.sql
+    ports:
+      - 3306:3306
+
+  redis:
+    image: redis
+    restart: always
+    container_name: proxypool_redis
+    ports:
+      - "6379:6379"
+  
+  api:
+    build: 
+      context: .
+      dockerfile: ProxyPool.HttpApi/Dockerfile
+    container_name: prxypool_httpapi
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "9998:80"
+    depends_on:
+      - redis
+      - mysql
+  
+  job:
+    build: 
+      context: .
+      dockerfile: ProxyPool.Jobs/Dockerfile
+    container_name: proxypool_jobs
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - redis
+      - mysql
+  
+  worker:
+    build: 
+      context: .
+      dockerfile: ProxyPool.WorkerService/Dockerfile
+    container_name: proxypool_worker
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - redis
+      - mysql

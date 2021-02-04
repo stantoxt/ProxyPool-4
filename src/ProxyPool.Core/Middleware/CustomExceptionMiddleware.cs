@@ -24,7 +24,7 @@ namespace ProxyPool.Core.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogError("Unhandled exception....", ex);
+                _logger.LogError(ex.ToString());
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
