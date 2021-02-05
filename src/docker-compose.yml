@@ -25,6 +25,7 @@ services:
       - "6379:6379"
   
   api:
+    image: 1992w/proxypool/httpapi
     build: 
       context: .
       dockerfile: ProxyPool.HttpApi/Dockerfile
@@ -39,6 +40,7 @@ services:
       - mysql
   
   job:
+    image: 1992w/proxypool/job
     build: 
       context: .
       dockerfile: ProxyPool.Jobs/Dockerfile
@@ -51,6 +53,7 @@ services:
       - mysql
   
   worker:
+    image: 1992w/proxypool/worker
     build: 
       context: .
       dockerfile: ProxyPool.WorkerService/Dockerfile
