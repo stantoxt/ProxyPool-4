@@ -48,7 +48,7 @@ namespace ProxyPool.WorkerService
 
                     services
                         .AddHostedService<PipelineWorker>()
-                        .AddHostedService<ProxyCheckConsumeWork>();
+                        .AddHostedService<ProxyCheckWork>();
                 })
                 .UseSerilog();
 

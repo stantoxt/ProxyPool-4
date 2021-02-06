@@ -3,6 +3,7 @@ using ProxyPool.Data.EntityFramework;
 using ProxyPool.Data.EntityFramework.Models;
 using ProxyPool.Service.Abstracts;
 using ProxyPool.Service.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,25 +49,30 @@ namespace ProxyPool.Service.Implementations
                 .AnyAsync();
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task<(ICollection<ProxyDto>, int nextLastId)> GetPagedProxys(int count, int lastId = 0)
         {
-             _context.Remove(new Proxy
-            {
-                Id = id
-            });
-            await _context.SaveChangesAsync();
+            var query = _context.Proxys.AsNoTracking();
+            var records = await query
+                                 .Where(c => c.Id > lastId)
+                                 .OrderBy(c => c.Id)
+                                 .Take(count)
+                                 .ToListAsync();
+
+            return (records.Select(c=> Map(c)).ToList(), records?.LastOrDefault()?.Id ?? 0);
         }
 
-        public async Task UpdateScoreAsync(int id, int score)
+        ProxyDto Map(Proxy proxy)
         {
-            var proxy = new Proxy
+            return new ProxyDto
             {
-                Id = id,
-                Score = score
+                Id = proxy.Id,
+                AnonymousDegree = proxy.AnonymousDegree,
+                CreatedTime = proxy.CreatedTime,
+                IP = proxy.IP,
+                Port = proxy.Port,
+                Score = proxy.Score,
+                UpdatedTime = proxy.UpdatedTime
             };
-            _context.Proxys.Attach(proxy);
-            _context.Entry(proxy).Property(c => c.Score).IsModified = true;
-            await _context.SaveChangesAsync();
         }
     }
 }

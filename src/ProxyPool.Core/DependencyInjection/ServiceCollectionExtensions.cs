@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.Configure<RedisOptions>(configuration.GetSection(RedisOptions.Position));
             services.AddSingleton<IRedisClientFactory, RedisClientFactory>();
-            services.AddScoped<IProxyCheck, DefaultProxyCheck>();
+            services.AddScoped<IProxySocket, DefaultProxySocket>();
             services.AddSingleton<IProxyPipeline, RedisProxyPipieline>();
             services.AddSingleton<IRandomPool, RedisRandomPool>();
             return services;

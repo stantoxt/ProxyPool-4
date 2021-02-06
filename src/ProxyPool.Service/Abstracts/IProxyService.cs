@@ -1,4 +1,5 @@
 ﻿using ProxyPool.Service.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProxyPool.Service.Abstracts
@@ -7,10 +8,8 @@ namespace ProxyPool.Service.Abstracts
     {
         Task AddAsync(ProxyDto dto);
 
-        Task RemoveAsync(int id);
-
-        Task UpdateScoreAsync(int id, int score);
-
         Task<bool> ExistsAsync(string ip, int port);
+
+        Task<(ICollection<ProxyDto>, int nextLastId)> GetPagedProxys(int count, int lastId = 0);
     }
 }

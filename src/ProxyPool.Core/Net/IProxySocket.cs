@@ -2,7 +2,7 @@
 
 namespace ProxyPool.Core.Net
 {
-    public interface IProxyCheck
+    public interface IProxySocket
     {
         Task<ProxyStatus> ConnectAsync(string host, int port, int timeout);
     }

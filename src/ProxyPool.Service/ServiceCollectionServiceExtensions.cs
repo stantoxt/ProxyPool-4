@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using ProxyPool.Data.EntityFramework;
 using ProxyPool.Service.Abstracts;
+using ProxyPool.Service.Check;
 using ProxyPool.Service.Implementations;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -12,8 +13,9 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddProxyPoolCore(configuration);
             services.AddScoped<IProxyService, ProxyService>();
-            services.AddScoped<IProxyCheckService, ProxyCheckService>();
             services.AddScoped<IProxyRandomService, ProxyRandomService>();
+            services.AddScoped<IProxyCheck, ProxyCheck>();
+            services.AddSingleton<IProxyCheckTaskQueue, ProxyCheckTaskRedisQueue>();
             services.AddDbContext<ProxyPoolContext>(options =>
             {
 #if DEBUG

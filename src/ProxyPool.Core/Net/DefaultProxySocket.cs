@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ProxyPool.Core.Net
 {
-    internal class DefaultProxyCheck : IProxyCheck
+    internal class DefaultProxySocket : IProxySocket
     {
         public async Task<ProxyStatus> ConnectAsync(string host, int port, int timeout)
         {
