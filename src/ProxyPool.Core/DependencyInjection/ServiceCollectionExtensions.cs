@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddProxyPoolCore(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<RedisOptions>(configuration.GetSection(RedisOptions.Position));
-            services.AddSingleton<IRedisClientFactory, RedisClientFactory>();
+            services.AddSingleton<IConnectionMultiplexerFactory, ConnectionMultiplexerFactory>();
             services.AddScoped<IProxySocket, DefaultProxySocket>();
             services.AddSingleton<IProxyPipeline, RedisProxyPipieline>();
             services.AddSingleton<IRandomPool, RedisRandomPool>();

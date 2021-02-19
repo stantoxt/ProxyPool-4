@@ -24,8 +24,6 @@ namespace ProxyPool.WorkerService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Yield();
-
             while (!stoppingToken.IsCancellationRequested)
             {
                 var item = await _taskQueue.DequeueAsync();

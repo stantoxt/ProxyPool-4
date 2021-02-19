@@ -1,5 +1,5 @@
-﻿using FreeRedis;
-using ProxyPool.Core.Redis;
+﻿using ProxyPool.Core.Redis;
+using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,45 +8,50 @@ namespace ProxyPool.Core
 {
     internal class RedisRandomPool : IRandomPool
     {
-        private readonly IRedisClientFactory _redisClientFactory;
+        private readonly IConnectionMultiplexerFactory _connectionMultiplexerFactory;
         private const string PROXY_RANDOM_POOL_KEY = "ProxyPool:Random";
         private const string DELIMITER = ":";
 
-        public RedisRandomPool(IRedisClientFactory redisClientFactory)
+        public RedisRandomPool(IConnectionMultiplexerFactory onnectionMultiplexerFactory)
         {
-            _redisClientFactory = redisClientFactory;
+            _connectionMultiplexerFactory = onnectionMultiplexerFactory;
         }
 
-        RedisClient RedisClient => _redisClientFactory.CreateClient();
+        IConnectionMultiplexer ConnectionMultiplexer => _connectionMultiplexerFactory.CreateConnectionMultiplexer();
 
         public async Task<(string host, int port)> NextAsync()
         {
-            var value = await RedisClient.SRandMemberAsync(PROXY_RANDOM_POOL_KEY);
+            var db = ConnectionMultiplexer.GetDatabase();
+            var value = await db.SetRandomMemberAsync(PROXY_RANDOM_POOL_KEY);
             return GetUnformatValue(value);
         }
 
         public async Task AddAsync(string host, int port)
         {
             var value = GetFormatValue(host, port);
-            await RedisClient.SAddAsync(PROXY_RANDOM_POOL_KEY, value);
+            var db = ConnectionMultiplexer.GetDatabase();
+            await db.SetAddAsync(PROXY_RANDOM_POOL_KEY, value);
         }
 
         public async Task AddAsync(IEnumerable<(string host, int port)> ts)
         {
-            var values = ts.Select(c => GetFormatValue(c.host, c.port));
-            await RedisClient.SAddAsync(PROXY_RANDOM_POOL_KEY, values.ToArray());
+            var values = ts.Select(c => new RedisValue(GetFormatValue(c.host, c.port)));
+            var db = ConnectionMultiplexer.GetDatabase();
+            await db.SetAddAsync(PROXY_RANDOM_POOL_KEY, values.ToArray());
         }
 
         public async Task RemoveAsync(string host, int port)
         {
             var value = GetFormatValue(host, port);
-            await RedisClient.SRemAsync(PROXY_RANDOM_POOL_KEY, value);
+            var db = ConnectionMultiplexer.GetDatabase();
+            await db.SetRemoveAsync(PROXY_RANDOM_POOL_KEY, value);
         }
 
         public async Task RemoveAsync(IEnumerable<(string host, int port)> ts)
         {
-            var values = ts.Select(c => GetFormatValue(c.host, c.port));
-            await RedisClient.SRemAsync(PROXY_RANDOM_POOL_KEY, values.ToArray());
+            var values = ts.Select(c => new RedisValue(GetFormatValue(c.host, c.port)));
+            var db = ConnectionMultiplexer.GetDatabase();
+            await db.SetRemoveAsync(PROXY_RANDOM_POOL_KEY, values.ToArray());
         }
 
         private string GetFormatValue(string host, int port)

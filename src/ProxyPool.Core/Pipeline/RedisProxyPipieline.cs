@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ProxyPool.Core.Redis;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,23 @@ namespace ProxyPool.Core.Pipeline
 {
     internal class RedisProxyPipieline : IProxyPipeline
     {
-        private readonly IRedisClientFactory _redisClientFactory;
+        private readonly IConnectionMultiplexerFactory _connectionMultiplexerFactory;
         private const string PIPE_LINE_NAME = "ProxyPool:PipeLine";
 
-        public RedisProxyPipieline(IRedisClientFactory redisClientFactory)
+        public RedisProxyPipieline(IConnectionMultiplexerFactory connectionMultiplexerFactory)
         {
-            _redisClientFactory = redisClientFactory;
+            _connectionMultiplexerFactory = connectionMultiplexerFactory;
         }
+
+        IConnectionMultiplexer ConnectionMultiplexer => _connectionMultiplexerFactory.CreateConnectionMultiplexer();
 
         public async Task AddAsync(ProxyInfo proxy)
         {
             if (proxy == null)
                 throw new ArgumentNullException(nameof(proxy));
 
-            var redisClient = _redisClientFactory.CreateClient();
-            await redisClient.RPushAsync(PIPE_LINE_NAME, JsonConvert.SerializeObject(proxy));
+            var db = ConnectionMultiplexer.GetDatabase();
+            await db.ListRightPushAsync(PIPE_LINE_NAME, JsonConvert.SerializeObject(proxy));
         }
 
         public async Task AddAsync(IEnumerable<ProxyInfo> list)
@@ -32,14 +35,19 @@ namespace ProxyPool.Core.Pipeline
                 throw new ArgumentNullException(nameof(list));
 
 
-            var redisClient = _redisClientFactory.CreateClient();
-            await redisClient.RPushAsync(PIPE_LINE_NAME, list.Select(c => JsonConvert.SerializeObject(c)));
+            var db = ConnectionMultiplexer.GetDatabase();
+            var redisValues = list.Select(c => new RedisValue(JsonConvert.SerializeObject(c)));
+            await db.ListRightPushAsync(PIPE_LINE_NAME, redisValues.ToArray());
         }
 
         public async Task<ProxyInfo> TakeAsync()
         {
-            var redisClient = _redisClientFactory.CreateClient();
-            return await redisClient.LPopAsync<ProxyInfo>(PIPE_LINE_NAME);
+            var db = ConnectionMultiplexer.GetDatabase();
+            var value = await db.ListLeftPopAsync(PIPE_LINE_NAME);
+            if (value.IsNullOrEmpty)
+                return null;
+
+            return JsonConvert.DeserializeObject<ProxyInfo>(value);
         }
     }
 }
