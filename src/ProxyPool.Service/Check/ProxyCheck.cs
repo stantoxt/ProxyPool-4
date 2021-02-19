@@ -26,51 +26,39 @@ namespace ProxyPool.Service.Check
 
         public async Task Check(ProxyDto dto)
         {
-            var proxy = await GetProxy(dto.Id);
-            if (proxy == null)
-                return;
-
-            var proxyStatus = await _socket.ConnectAsync(proxy.IP, proxy.Port, 5000);
+            var proxyStatus = await _socket.ConnectAsync(dto.IP, dto.Port, 5000);
             if (proxyStatus.Connected)
             {
-                await IncreaseScoreAsync(proxy, 1);
-                await _randomPool.AddAsync(proxy.IP, proxy.Port);
+                await IncreaseScoreAsync(dto, 1);
+                await _randomPool.AddAsync(dto.IP, dto.Port);
             }
             else
             {
-                if (proxy.Score <= 1)
+                if (dto.Score <= 1)
                 {
-                    await DeleteProxyAsync(proxy);
-                    await _randomPool.RemoveAsync(proxy.IP, proxy.Port);
+                    await DeleteProxyAsync(dto);
+                    await _randomPool.RemoveAsync(dto.IP, dto.Port);
                 }
                 else
                 {
-                    await IncreaseScoreAsync(proxy, -1);
-                    await _randomPool.AddAsync(proxy.IP, proxy.Port);
+                    await IncreaseScoreAsync(dto, -1);
+                    await _randomPool.AddAsync(dto.IP, dto.Port);
                 }
             }
         }
 
-        async Task<Proxy> GetProxy(int id)
+        async Task DeleteProxyAsync(ProxyDto proxy)
         {
-            return await _dbContext.Proxys.AsNoTracking().Where(c => c.Id == id).FirstOrDefaultAsync();
+            await _dbContext.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM t_proxys WHERE id={proxy.Id}");
         }
 
-        async Task DeleteProxyAsync(Proxy proxy)
+        async Task IncreaseScoreAsync(ProxyDto proxy, int value)
         {
-            _dbContext.Proxys.Remove(proxy);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        async Task IncreaseScoreAsync(Proxy proxy, int value)
-        {
-            proxy.Score = proxy.Score + value;
-            if (proxy.Score > MAX_SCORE)
+            var newScore = proxy.Score + value;
+            if (newScore > MAX_SCORE)
                 return;
 
-            proxy.UpdatedTime = DateTime.Now;
-            _dbContext.Update(proxy);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.Database.ExecuteSqlInterpolatedAsync($"UPDATE t_proxys SET score={newScore}, updated_time={DateTime.Now} WHERE  id={proxy.Id}");
         }
     }
 }
